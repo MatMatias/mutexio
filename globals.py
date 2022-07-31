@@ -22,3 +22,4 @@ SOCKET_UDP = SOCK_DGRAM
 SOCKET_TCP = SOCK_STREAM
 
 chosen_client_id = None
+process_answered_counters = {}

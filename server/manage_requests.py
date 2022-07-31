@@ -35,6 +35,7 @@ def manage_requests(
 
             send_message(server_socket, globals.GRANT_COMMAND, address)
             print(f"[{current_time} ACCESS GRANTED] Access granted to {id}")
+            globals.process_answered_counters[id] += 1
 
             chosen_client_id_lock.release()
             client_requests_lock.release()

@@ -19,10 +19,15 @@ def listen_actions(client_requests):
             print(message)
 
         if chosen_action == "2":
-            print("How many times each process was anwsered\n")
+            if globals.chosen_client_id not in globals.process_answered_counters:
+                print("No process was answered yet.")
+            else:
+                print(
+                    f"Process {globals.chosen_client_id} was answered {globals.process_answered_counters[globals.chosen_client_id]}\n"
+                )
 
         if chosen_action == "3":
-            print("Server terminated\n")
+            print("[SERVER TERMINATED]")
             break
 
     return

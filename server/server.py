@@ -53,6 +53,7 @@ def init():
         target=listen_actions,
         args=(tcp_server, grant_event),
     )
+    listen_actions_thread.start()
 
 
 init()

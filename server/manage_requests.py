@@ -17,7 +17,7 @@ def manage_requests(
     chosen_client_id_lock,
 ):
     while True:
-        if client_requests.empty() == False:
+        if not client_requests.empty() and not grant_event.is_set():
             client_requests_lock.acquire()
             chosen_client_id_lock.acquire()
 

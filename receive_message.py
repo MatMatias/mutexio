@@ -10,7 +10,6 @@ def receive_message(socket):
         message_length = int(message_header)
 
         message_data, message_address = socket.recvfrom(message_length)
-
         message_data = message_data.decode(globals.MESSAGE_FORMAT)
 
         global error_message

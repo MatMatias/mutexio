@@ -13,6 +13,6 @@ def request_access(client_socket, client_id):
 
     while connected:
         message = f"{globals.REQUEST_COMMAND}|{client_id}"
-        send_message(client_socket, message)
+        send_message(client_socket, message, globals.SERVER_ADDRESS)
         print(f"[MESSAGE SENT] {message}")
         sleep(5)

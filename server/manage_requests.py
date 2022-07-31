@@ -9,10 +9,20 @@ import logging
 from datetime import datetime
 
 
-def manage_requests(server_socket, client_requests, client_requests_lock, grant_event):
+def manage_requests(
+    server_socket,
+    client_requests,
+    client_requests_lock,
+    grant_event,
+    chosen_client_id_lock,
+):
     while True:
         if client_requests.empty() == False:
+            client_requests_lock.acquire()
+            chosen_client_id_lock.acquire()
+
             id, request_command, address = client_requests.get()
+            globals.chosen_client_id = id
 
             now = datetime.now()
             current_time = now.strftime("%H:%M:%S")
@@ -23,9 +33,9 @@ def manage_requests(server_socket, client_requests, client_requests_lock, grant_
                 )
                 return
 
-            client_requests_lock.acquire()
             send_message(server_socket, globals.GRANT_COMMAND, address)
             print(f"[{current_time} ACCESS GRANTED] Access granted to {id}")
 
+            chosen_client_id_lock.release()
             client_requests_lock.release()
             grant_event.set()

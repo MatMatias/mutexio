@@ -2,43 +2,27 @@ import sys
 
 sys.path.append("..")
 
-from tcp_send_message import tcp_send_message
-from tcp_receive_message import tcp_receive_message
-
 import globals
-import logging
-from datetime import datetime
-from socket import socket
 
 
-def listen_actions(tcp_server_socket, grant_event):
-
-    tcp_server_socket.listen()
-
-    now = datetime.now()
-    current_time = now.strftime("%H:%M:%S")
-    print(
-        f"[{current_time} LISTENING] TCP Server is listening on {globals.SERVER_IP}:{globals.TCP_SERVER_PORT}"
-    )
-
+def listen_actions(client_requests):
     while True:
-        grant_event.wait()
-        client_connection, client_address = tcp_server_socket.accept()
+        menu_message = f"Choose your action (1, 2 or 3):\n1) Print current request;\n2) Print how many times each process was anwsered;\n3) Close execution.\n"
+        chosen_action = input(menu_message)
 
-        while grant_event.is_set():
-            actions_menu = f"Access granted to {globals.chosen_client_id}.\nChoose your action (1, 2 or 3):\n1) Print current request;\n2) Print how many times each process was anwsered;\n3) Close execution.\n"
-            tcp_send_message(client_connection, actions_menu)
+        if chosen_action == "1":
+            print("Current requests queue:\n")
+            message = "(\n"
+            for request in client_requests:
+                message += "(" + request[0] + ", " + request[1] + "),\n"
 
-            client_action = tcp_receive_message(client_connection)
+            print(message)
 
-            now = datetime.now()
-            current_time = now.strftime("%H:%M:%S")
+        if chosen_action == "2":
+            print("How many times each process was anwsered\n")
 
-            print(
-                f"[{current_time} TCP CLIENT {globals.chosen_client_id} SENT] {client_action}"
-            )
-            if client_action == globals.RELEASE_COMMAND:
-                print(
-                    f"[{current_time} TCP CLIENT {globals.chosen_client_id} CONNECTION CLOSED]"
-                )
-                grant_event.clear()
+        if chosen_action == "3":
+            print("Server terminated\n")
+            break
+
+    return

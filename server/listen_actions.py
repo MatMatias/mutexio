@@ -8,7 +8,7 @@ import globals
 def listen_actions(client_requests):
     while True:
         menu_message = f"Choose your action (1, 2 or 3):\n1) Print current request;\n2) Print how many times each process was anwsered;\n3) Close execution.\n"
-        chosen_action = input(menu_message)
+        chosen_action = input(f"{menu_message}>> ")
 
         if chosen_action == "1":
             print("Current requests queue:\n")

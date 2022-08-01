@@ -4,9 +4,7 @@ sys.path.append("..")
 
 import globals
 from receive_message import receive_message
-
-import logging
-from datetime import datetime
+from log import log
 
 
 def listen_requests(server_socket, client_requests, client_requests_lock, grant_event):
@@ -16,10 +14,7 @@ def listen_requests(server_socket, client_requests, client_requests_lock, grant_
         message, address = receive_message(server_socket)
         sender_request, sender_id = message.split("|")
 
-        now = datetime.now()
-        current_time = now.strftime("%H:%M:%S")
-
-        print(f"[{current_time} {sender_id} SENT] {sender_request}")
+        log(f"[{sender_id} SENT] {sender_request}")
 
         if sender_request == globals.REQUEST_COMMAND:
             client_requests_lock.acquire()
@@ -30,4 +25,4 @@ def listen_requests(server_socket, client_requests, client_requests_lock, grant_
             grant_event.clear()
 
         else:
-            logging.error(f"[{current_time} BAD REQUEST] from {sender_id}")
+            log.error(f"[{current_time} BAD REQUEST] from {sender_id}")

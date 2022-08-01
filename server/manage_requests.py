@@ -3,10 +3,9 @@ import sys
 sys.path.append("..")
 
 from send_message import send_message
+from log import log
 
 import globals
-import logging
-from datetime import datetime
 
 
 def manage_requests(
@@ -24,17 +23,12 @@ def manage_requests(
             id, request_command, address = client_requests.get()
             globals.chosen_client_id = id
 
-            now = datetime.now()
-            current_time = now.strftime("%H:%M:%S")
-
             if request_command != globals.REQUEST_COMMAND:
-                logging.error(
-                    f"[{current_time} REQUEST QUEUE] Bad request command from {id} - {address}"
-                )
+                log(f"[SERVER REQUEST QUEUE] Bad request command from {id} - {address}")
                 return
 
             send_message(server_socket, globals.GRANT_COMMAND, address)
-            print(f"[{current_time} ACCESS GRANTED] Access granted to {id}")
+            log(f"[ACCESS GRANTED] Access granted to {id}")
 
             if id not in globals.process_answered_counters:
                 globals.process_answered_counters[id] = 0

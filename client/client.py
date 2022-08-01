@@ -45,7 +45,7 @@ def init():
     send_actions_thread = Thread(
         name="send actions thread",
         target=send_actions,
-        args=(client_id, access_granted_event),
+        args=(client_id, udp_client, access_granted_event),
     )
     send_actions_thread.start()
 

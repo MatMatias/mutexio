@@ -2,30 +2,24 @@ import sys
 
 sys.path.append("..")
 
+from send_message import send_message
+
 import globals
-from tcp_send_message import tcp_send_message
-from tcp_receive_message import tcp_receive_message
-from socket import socket, SHUT_RDWR
+from datetime import datetime
+from time import sleep
 
 
-def send_actions(client_id, access_granted_event):
+def send_actions(client_id, client_socket, access_granted_event):
     while True:
         access_granted_event.wait()
 
-        tcp_client_socket = socket(globals.SOCKET_FAMILY, globals.SOCKET_TCP)
-        tcp_client_socket.connect(globals.TCP_SERVER_ADDRESS)
+        with open("../resultado.txt", "a") as results:
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S:%f")
+            log = f"[{client_id}] {current_time}\n"
+            results.write(log)
+            sleep(3)
 
-        print(f"[CONNECTED] {client_id} connected to the TCP Server")
-
-        while access_granted_event.is_set():
-            server_menu = tcp_receive_message(tcp_client_socket)
-            chosen_action = input(f"{server_menu}>> ")
-
-            if chosen_action == "3":
-                tcp_send_message(tcp_client_socket, globals.RELEASE_COMMAND)
-                access_granted_event.clear()
-
-                tcp_client_socket.shutdown(SHUT_RDWR)
-                tcp_client_socket.close()
-            else:
-                tcp_send_message(tcp_client_socket, chosen_action)
+        message = f"{globals.RELEASE_COMMAND}|{client_id}"
+        send_message(client_socket, message, globals.UDP_SERVER_ADDRESS)
+        access_granted_event.clear()

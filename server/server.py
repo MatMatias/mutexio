@@ -31,7 +31,7 @@ def init():
     listen_requests_thread = Thread(
         name="requests listener thread",
         target=listen_requests,
-        args=(udp_server, client_requests, client_requests_lock),
+        args=(udp_server, client_requests, client_requests_lock, grant_event),
         daemon=True,
     )
     listen_requests_thread.start()

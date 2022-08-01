@@ -1,7 +1,3 @@
-# import sys
-
-# sys.path.append("..")
-
 import globals
 from request_access import request_access
 from listen_grant import listen_grant
@@ -26,7 +22,7 @@ def init(client_id, request_limit):
     grant_listener_thread = Thread(
         name=f"client {client_id} grant listener thread",
         target=listen_grant,
-        args=(udp_client, access_granted_event, request_limit),
+        args=(udp_client, access_granted_event, request_limit, client_id),
     )
     grant_listener_thread.start()
 

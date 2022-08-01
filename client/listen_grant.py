@@ -8,7 +8,7 @@ from datetime import datetime
 from time import sleep
 
 
-def listen_grant(udp_client_socket, access_granted_event, request_limit):
+def listen_grant(udp_client_socket, access_granted_event, request_limit, client_id):
     grant_counter = 0
     listening = True
 
@@ -20,7 +20,7 @@ def listen_grant(udp_client_socket, access_granted_event, request_limit):
             now = datetime.now()
             current_time = now.strftime("%H:%M:%S")
 
-            print(f"[{current_time} SERVER SENT] {server_command}")
+            print(f"[{current_time} {client_id} SERVER SENT] {server_command}")
 
             if server_command == globals.GRANT_COMMAND:
                 sleep(1)

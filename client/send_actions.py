@@ -18,7 +18,6 @@ def send_actions(client_id, client_socket, access_granted_event):
             current_time = now.strftime("%H:%M:%S:%f")
             log = f"[{client_id}] {current_time}\n"
             results.write(log)
-            sleep(3)
 
         message = f"{globals.RELEASE_COMMAND}|{client_id}"
         send_message(client_socket, message, globals.UDP_SERVER_ADDRESS)

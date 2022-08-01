@@ -28,7 +28,7 @@ def manage_requests(
                 return
 
             send_message(server_socket, globals.GRANT_COMMAND, address)
-            log(f"[ACCESS GRANTED] Access granted to {id}")
+            log(f"[ACCESS GRANTED] {id}")
 
             if id not in globals.process_answered_counters:
                 globals.process_answered_counters[id] = 0

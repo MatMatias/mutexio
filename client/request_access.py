@@ -14,4 +14,4 @@ def request_access(client_socket, client_id, access_granted_event):
             message = f"{globals.REQUEST_COMMAND}|{client_id}"
             send_message(client_socket, message, globals.UDP_SERVER_ADDRESS)
             print(f"[MESSAGE SENT] {message}")
-            sleep(5)
+            sleep(2)

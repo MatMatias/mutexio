@@ -11,7 +11,7 @@ from socket import socket
 from threading import Thread, Event
 
 
-def init(client_id):
+def init(client_id, request_limit):
 
     access_granted_event = Event()
     udp_client = socket(globals.SOCKET_FAMILY, globals.SOCKET_UDP)
@@ -19,20 +19,20 @@ def init(client_id):
     request_loop_thread = Thread(
         name=f"client {client_id} request access thread",
         target=request_access,
-        args=(udp_client, client_id, access_granted_event),
+        args=(udp_client, client_id, access_granted_event, request_limit),
     )
     request_loop_thread.start()
 
     grant_listener_thread = Thread(
-        name=f"client {client_id}  grant listener thread",
+        name=f"client {client_id} grant listener thread",
         target=listen_grant,
-        args=(udp_client, access_granted_event),
+        args=(udp_client, access_granted_event, request_limit),
     )
     grant_listener_thread.start()
 
     send_actions_thread = Thread(
         name=f"client {client_id} send actions thread",
         target=send_actions,
-        args=(client_id, udp_client, access_granted_event),
+        args=(client_id, udp_client, access_granted_event, request_limit),
     )
     send_actions_thread.start()

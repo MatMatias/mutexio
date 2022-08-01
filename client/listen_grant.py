@@ -8,8 +8,11 @@ from datetime import datetime
 from time import sleep
 
 
-def listen_grant(udp_client_socket, access_granted_event):
-    while True:
+def listen_grant(udp_client_socket, access_granted_event, request_limit):
+    grant_counter = 0
+    listening = True
+
+    while listening:
         while not access_granted_event.is_set():
             server_message = receive_message(udp_client_socket)
             server_command = server_message[0]
@@ -22,3 +25,7 @@ def listen_grant(udp_client_socket, access_granted_event):
             if server_command == globals.GRANT_COMMAND:
                 sleep(1)
                 access_granted_event.set()
+
+            grant_counter += 1
+            if grant_counter >= request_limit:
+                listening = False

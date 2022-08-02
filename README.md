@@ -15,7 +15,7 @@ $ python server/server.py
 ```
 then, run:
 ```console
-python run_clients.py --n N --r R
+$ python run_clients.py --n N --r R
 ```
 where N represents the number of non-coordinator processes that will be created and run, and R represents the number of requests to the critical area each non-coordinator process will make to the coordinator.
 

@@ -47,6 +47,3 @@ def init():
     manage_requests_thread.start()
 
     listen_actions(client_requests)
-
-
-init()

@@ -5,7 +5,7 @@ def log(message):
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
 
-    with open("../server_log.txt", "a") as server_log:
+    with open("./server_log.txt", "a") as server_log:
         now = datetime.now()
         current_time = now.strftime("%H:%M:%S:%f")
 
